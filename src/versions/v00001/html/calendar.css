@@ -15,7 +15,7 @@ th {
   width: 212px;
   height: 36px;
 }
-td {
+td.day {
   background-color: rgb(244, 241, 241);
   width: 212px;
   height: 156px;
@@ -24,10 +24,13 @@ td {
   border-color: darkgray;
   cursor: pointer;
 }
-td:hover {
+td.day:hover {
   background-color: rgb(233, 232, 232);
 }
 td.current {
+  background-color: #ffffff;
+}
+td.day.current:hover {
   background-color: #ffffff;
 }
 .hour {
@@ -60,4 +63,11 @@ td.current {
   font-family: Arial;
   display: inline;
   color: cornflowerblue;
+}
+#calendar {
+  margin: 0;
+}
+#detail {
+  margin: 0;
+  margin-left: 125px;
 }

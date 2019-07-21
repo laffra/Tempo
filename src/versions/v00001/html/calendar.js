@@ -1,5 +1,16 @@
 var currentDate = new Date(new Date().getFullYear(), new Date().getMonth());
 
+var INDEX_TIMESTAMP = 0;
+var INDEX_SYSTEM = 1;
+var INDEX_CPU = 2;
+var INDEX_USER = 3;
+var INDEX_PID = 4;
+var INDEX_PPID = 5;
+var INDEX_APP_NAME = 6;
+var INDEX_TITLE = 7;
+var INDEX_FAV = 8;
+var INDEX_URL = 9;
+
 function render() {
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -21,10 +32,12 @@ function parseEvents(events) {
     if (!eventMap[key]) {
       eventMap[key] = [];
       for (var n = 0; n < 24; n++) {
-        eventMap[key].push(0);
+        eventMap[key].push([]);
       }
     }
-    max = Math.max(eventMap[key][date.getHours()]++, max);
+    var hours = date.getHours()
+    eventMap[key][hours].push(event)
+    max = Math.max(eventMap[key][hours].length, max);
   }
   eventMap["max"] = max;
   return eventMap;
@@ -36,12 +49,20 @@ function renderEvents() {
   $.get("http://localhost:1187/events?start=" + start + "&end=" + end, function(events) {
     var eventMap = parseEvents(events);
     for (var key in eventMap) {
+      if (key == "max") continue;
       var hours = $("<div>");
       for (var n = 0; n < 24; n++) {
-        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][n] / 1800));
+        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][n].length / 1800));
         var hour = $("<div>")
           .addClass("hour")
-          .css("background-color", "rgb("+color+","+color+","+color+")")
+          .css("background-color", "rgb(" + color + "," + color + "," + color + ")")
+          .attr("key", key)
+          .attr("hour", n)
+          .click(function () {
+            var key = $(this).attr("key");
+            var hour = $(this).attr("hour");
+            showDetails(parseInt(key[0]), parseInt(key[1]), parseInt(hour), eventMap[key]);
+          });
         hours.append(hour);
       }
       $("#cell" + key)
@@ -49,6 +70,50 @@ function renderEvents() {
         .append(hours);
     }
   })
+}
+
+function showDetails(weekIndex, dayIndex, hour, day) {
+  console.log(weekIndex, dayIndex, hour)
+  var eventCountByUser = {};
+  for (var n = 0; n < day[hour].length; n++) {
+    var event = day[hour][n];
+    var user = event[INDEX_USER];
+    if (user) {
+      eventCountByUser[user] = (eventCountByUser[user] || 0) + 1;
+    }
+  }
+  var dataPoints = [];
+  for (user in eventCountByUser) {
+    console.log(user, eventCountByUser[user]);
+    dataPoints.push({ label: user, value: eventCountByUser[user] });
+  }
+  $("#details").empty();
+  new d3pie("details", {
+    header: {
+      title: {
+        text: "Tempo Details",
+        fontSize: 30
+      }
+    },
+    size: {
+      canvasWidth: 690,
+      pieOuterRadius: "90%"
+    },
+    labels: {
+      outer: {
+        pieDistance: 32
+      },
+      inner: {
+        hideWhenLessThanPercentage: 3
+      },
+      mainLabel: {
+        fontSize: 17
+      },
+    },
+    data: {
+      content: dataPoints
+    }
+  });
 }
 
 function renderGrid() {
