@@ -4,7 +4,6 @@ import extension
 import functools
 import gc
 import install
-import license
 import log
 import os
 import preferences
@@ -26,8 +25,6 @@ ICON = os.path.join(RESOURCE_PATH, "icons/tempo-icon.png")
 TITLE_QUIT = "Quit Tempo"
 TITLE_REPORT = "Show Activity Report..."
 TITLE_ABOUT = "About Tempo - %s"
-
-running_local = not getattr(sys, "_MEIPASS", False)
 
 class TempoStatusBarApp(rumps.App):
     def __init__(self, quit_callback=None):
@@ -61,11 +58,11 @@ class TempoStatusBarApp(rumps.App):
         self.icon = ICON
         self.title = ""
         self.menu.clear()
-        report = [rumps.MenuItem(TITLE_REPORT, callback=self.report), None] if running_local else []
         self.menu = [
             rumps.MenuItem(TITLE_ABOUT % self.version(), callback=self.about),
             None,
-        ] + report + [
+            rumps.MenuItem(TITLE_REPORT, callback=self.report),
+            None,
             rumps.MenuItem(TITLE_QUIT, callback=self.quit),
         ]
         self.menu._menu.setDelegate_(self)
@@ -88,7 +85,6 @@ class TempoStatusBarApp(rumps.App):
 
 
 def run(quit_callback=None):
-    if license.get_license():
-        extension.install()
-        rumps.notification("Tempo", "Tempo is now running", "See the emoji icon in the status bar", sound=False)
-        TempoStatusBarApp(quit_callback).run()
+    extension.install()
+    rumps.notification("Tempo", "Tempo is now running", "See the emoji icon in the status bar", sound=False)
+    TempoStatusBarApp(quit_callback).run()
