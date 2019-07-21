@@ -2,7 +2,7 @@
   outline:none !important
 }
 h1,h2,h3 {
-  color: saddlebrown;
+  color: rgb(123, 104, 136);
   font-family: Arial;
 }
 table {
@@ -49,7 +49,7 @@ td.day.current:hover {
   color: darkgray;
 }
 .controls button {
-  background-color: cornflowerblue;
+  background-color: rgb(36, 132, 193);
   color: white;
   width: 42px;
   padding: 6px;
@@ -62,7 +62,7 @@ td.day.current:hover {
   font-size: 32px;
   font-family: Arial;
   display: inline;
-  color: cornflowerblue;
+  color: rgb(36, 132, 193);
 }
 #calendar {
   margin: 0;
