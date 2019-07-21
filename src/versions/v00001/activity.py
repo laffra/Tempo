@@ -37,7 +37,8 @@ INDEX_URL = 9
 
 HOUR_IN_MS = 3600 * 1000000
 
-VisitedTab = collections.namedtuple('Tab', ['user', 'fav', 'title', 'url'])
+Activity = collections.namedtuple("Activity", ["timestamp", "system", "cpu", "user", "pid", "ppid", "name", "title", "fav", "url"])
+VisitedTab = collections.namedtuple("Tab", ["user", "fav", "title", "url"])
 last_tab = VisitedTab("", "", "", "")
 chrome_users = {}
 
@@ -46,6 +47,11 @@ def db_path():
     if not os.path.exists(home_dir):
         os.makedirs(home_dir)
     return os.path.join(home_dir, DB_FILE_NAME)
+
+def get_activities(start, end):
+    cursor = sqlite3.connect(db_path()).cursor()
+    query = "SELECT * FROM activities WHERE timestamp > %s AND timestamp < %s" % (start, end)
+    return cursor.execute(query).fetchall()
 
 def update_tab(user, fav, title, url):
     global last_tab
