@@ -1,0 +1,82 @@
+<!DOCTYPE html >
+<head>
+  <title>Tempo Calendar</title>
+  <link href="calendar.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <h1> Tempo Activities </h3>
+  <div class=controls>
+    <button id="back" name="back" ><</button>
+    <button id="forward" name="forward" >></button>
+    <div id="month">May 2013</div>
+  </div>
+  <div id="chart">
+
+    <table>
+      <tr></tr>
+        <th class="header">Sunday</th>
+        <th class="header">Monday</th>
+        <th class="header">Tuesday</th>
+        <th class="header">Wednesday</th>
+        <th class="header">Thursday</th>
+        <th class="header">Friday</th>
+        <th class="header">Saturday</th>
+    </tr><tr class="week" id="week0">
+        <td class="day" id="cell00"><div class="number"/></td>
+        <td class="day" id="cell01"><div class="number"/></td>
+        <td class="day" id="cell02"><div class="number"/></td>
+        <td class="day" id="cell03"><div class="number"/></td>
+        <td class="day" id="cell04"><div class="number"/></td>
+        <td class="day" id="cell05"><div class="number"/></td>
+        <td class="day" id="cell06"><div class="number"/></td>
+      </tr><tr class="week" id="week1">
+        <td class="day" id="cell10"><div class="number"/></td>
+        <td class="day" id="cell11"><div class="number"/></td>
+        <td class="day" id="cell12"><div class="number"/></td>
+        <td class="day" id="cell13"><div class="number"/></td>
+        <td class="day" id="cell14"><div class="number"/></td>
+        <td class="day" id="cell15"><div class="number"/></td>
+        <td class="day" id="cell16"><div class="number"/></td>
+      </tr><tr class="week" id="week2">
+        <td class="day" id="cell20"><div class="number"/></td>
+        <td class="day" id="cell21"><div class="number"/></td>
+        <td class="day" id="cell22"><div class="number"/></td>
+        <td class="day" id="cell23"><div class="number"/></td>
+        <td class="day" id="cell24"><div class="number"/></td>
+        <td class="day" id="cell25"><div class="number"/></td>
+        <td class="day" id="cell26"><div class="number"/></td>
+      </tr><tr class="week" id="week3">
+        <td class="day" id="cell30"><div class="number"/></td>
+        <td class="day" id="cell31"><div class="number"/></td>
+        <td class="day" id="cell32"><div class="number"/></td>
+        <td class="day" id="cell33"><div class="number"/></td>
+        <td class="day" id="cell34"><div class="number"/></td>
+        <td class="day" id="cell35"><div class="number"/></td>
+        <td class="day" id="cell36"><div class="number"/></td>
+      </tr><tr class="week" id="week4">
+        <td class="day" id="cell40"><div class="number"/></td>
+        <td class="day" id="cell41"><div class="number"/></td>
+        <td class="day" id="cell42"><div class="number"/></td>
+        <td class="day" id="cell43"><div class="number"/></td>
+        <td class="day" id="cell44"><div class="number"/></td>
+        <td class="day" id="cell45"><div class="number"/></td>
+        <td class="day" id="cell46"><div class="number"/></td>
+      </tr><tr class="week" id="week5">
+        <td class="day" id="cell50"><div class="number"/></td>
+        <td class="day" id="cell51"><div class="number"/></td>
+        <td class="day" id="cell52"><div class="number"/></td>
+        <td class="day" id="cell53"><div class="number"/></td>
+        <td class="day" id="cell54"><div class="number"/></td>
+        <td class="day" id="cell55"><div class="number"/></td>
+        <td class="day" id="cell56"><div class="number"/></td>
+      </tr>
+    </table>
+
+  </div>
+
+  <script type="text/javascript" src="calendar.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+*:focus {
+  outline:none !important
+}
+h1,h2,h3 {
+  color: saddlebrown;
+  font-family: Arial;
+}
+table {
+  margin: 24px;
+}
+th {
+  background-color: #ffffff;
+  font-size: 16px;
+  font-family: Arial;
+  width: 212px;
+  height: 36px;
+}
+td {
+  background-color: rgb(244, 241, 241);
+  width: 212px;
+  height: 156px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: darkgray;
+  cursor: pointer;
+}
+td:hover {
+  background-color: rgb(233, 232, 232);
+}
+td.current {
+  background-color: #ffffff;
+}
+.hour {
+  width: 26px;
+  height: 26px;
+  display: inline-block;
+  border: 1px solid rgb(170, 170, 170);
+  margin: 2px;
+}
+.number {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  font-size: 16px;
+  font-family: Arial;
+  color: darkgray;
+}
+.controls button {
+  background-color: cornflowerblue;
+  color: white;
+  width: 42px;
+  padding: 6px;
+  margin-right: 8px;
+  font-size: 24px;
+  font-family: Arial;
+}
+.controls div {
+  margin-right: 24px;
+  font-size: 32px;
+  font-family: Arial;
+  display: inline;
+  color: cornflowerblue;
+}
