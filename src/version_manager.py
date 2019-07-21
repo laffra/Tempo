@@ -28,10 +28,11 @@ if not os.path.exists(downloads_dir):
 sys.path.append(home_dir)
 running_local = not getattr(sys, "_MEIPASS", False)
 
+LATEST_URL = "https://happymac.app/_functions/latest_tempo"
 
 def main(quit_callback=None):
     if not running_local:
-        download_latest()
+        pass # download_latest()
     try:
         load_version(last_version(), quit_callback)
     except Exception as e:
@@ -80,7 +81,7 @@ def load_module_from_source(module_name, source):
 def download_latest():
     try:
         hardware_uuid = get_hardware_uuid()
-        latest_url = 'https://tempo.app/_functions/latest?version=%s&uuid=%s' % (last_version(), hardware_uuid)
+        latest_url = '%s?version=%s&uuid=%s' % (LATEST_URL, last_version(), hardware_uuid)
         log.log("Download: getting the latest version at %s" % latest_url)
         latest = json.loads(requests.get(latest_url).content)
         latest['contents'] = latest['contents'].replace("@@@", "\n")
