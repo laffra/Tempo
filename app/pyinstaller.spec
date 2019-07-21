@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['src/tempo.py'],
-             pathex=['/Users/chris/dev/tempo'],
+             pathex=['/Users/chris/dev/latest/tempo'],
              binaries=[],
              datas=[
                ('icons', 'icons'),
