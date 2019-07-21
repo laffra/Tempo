@@ -9,7 +9,6 @@ import os
 import preferences
 import process
 import profiler
-import report
 import rumps
 import server
 import suspender
@@ -41,8 +40,8 @@ class TempoStatusBarApp(rumps.App):
 
     def report(self, menuItem=None):
         try:
-            report.generate()
-            profiler.dump_stats()
+            server.load_report()
+            # profiler.dump_stats()
         except:
             error.error("Error in menu callback")
         finally:
