@@ -35,8 +35,8 @@ function parseEvents(events) {
         eventMap[key].push([]);
       }
     }
-    var hours = date.getHours()
-    eventMap[key][hours].push(event)
+    var hours = date.getHours();
+    eventMap[key][hours].push(event);
     max = Math.max(eventMap[key][hours].length, max);
   }
   eventMap["max"] = max;
@@ -48,11 +48,13 @@ function renderEvents() {
   var end = start + 60 * 60 * 24 * 31;
   $.get("http://localhost:1187/events?start=" + start + "&end=" + end, function(events) {
     var eventMap = parseEvents(events);
+    var max = eventMap["max"];
     for (var key in eventMap) {
       if (key == "max") continue;
       var hours = $("<div>");
       for (var n = 0; n < 24; n++) {
-        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][n].length / 1800));
+        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][n].length / max));
+        console.log(key, n, eventMap[key][n].length, color);
         var hour = $("<div>")
           .addClass("hour")
           .css("background-color", "rgb(" + color + "," + color + "," + color + ")")
@@ -77,9 +79,15 @@ function showDetails(weekIndex, dayIndex, hour, day) {
   var eventCountByUser = {};
   for (var n = 0; n < day[hour].length; n++) {
     var event = day[hour][n];
-    var user = event[INDEX_USER];
-    if (user) {
-      eventCountByUser[user] = (eventCountByUser[user] || 0) + 1;
+    var key = event[INDEX_USER];
+    if (key) {
+      if (key.indexOf("@") == -1) {
+        key = event[INDEX_APP_NAME];
+      } else {
+        var domain = event[INDEX_URL].replace(/https?:\/\//, "").replace(/\/.*/, "");
+        key += " - " + domain;
+      }
+      eventCountByUser[key] = (eventCountByUser[key] || 0) + 1;
     }
   }
   var dataPoints = [];
@@ -96,7 +104,7 @@ function showDetails(weekIndex, dayIndex, hour, day) {
       }
     },
     size: {
-      canvasWidth: 690,
+      canvasWidth: 890,
       pieOuterRadius: "90%"
     },
     labels: {
