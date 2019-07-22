@@ -37,7 +37,7 @@ td.day.current:hover {
   width: 26px;
   height: 26px;
   display: inline-block;
-  border: 1px solid rgb(170, 170, 170);
+  border: 1px solid rgb(191, 191, 191);
   margin: 2px;
 }
 .number {

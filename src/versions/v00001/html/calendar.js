@@ -58,12 +58,13 @@ function renderEvents() {
         var hour = $("<div>")
           .addClass("hour")
           .css("background-color", "rgb(" + color + "," + color + "," + color + ")")
+          .css("border-color", eventMap[key][n].length ? "rgb(150,150,150)" : "rgb(235,235,235)")
           .attr("key", key)
           .attr("hour", n)
           .click(function () {
             var key = $(this).attr("key");
             var hour = $(this).attr("hour");
-            showDetails(parseInt(key[0]), parseInt(key[1]), parseInt(hour), eventMap[key]);
+            showDetails(parseInt(key[0]), parseInt(key[1]), parseInt(hour), eventMap[key], max);
           });
         hours.append(hour);
       }
@@ -74,7 +75,7 @@ function renderEvents() {
   })
 }
 
-function showDetails(weekIndex, dayIndex, hour, day) {
+function showDetails(weekIndex, dayIndex, hour, day, max) {
   console.log(weekIndex, dayIndex, hour)
   var eventCountByUser = {};
   for (var n = 0; n < day[hour].length; n++) {
@@ -91,15 +92,16 @@ function showDetails(weekIndex, dayIndex, hour, day) {
     }
   }
   var dataPoints = [];
-  for (user in eventCountByUser) {
-    console.log(user, eventCountByUser[user]);
-    dataPoints.push({ label: user, value: eventCountByUser[user] });
+  var totalSamples = 0;
+  for (key in eventCountByUser) {
+    dataPoints.push({ label: key, value: eventCountByUser[key] });
+    totalSamples += eventCountByUser[key];
   }
   $("#details").empty();
   new d3pie("details", {
     header: {
       title: {
-        text: "Tempo Details",
+        text: "Tempo Details - " + Math.min(60, Math.floor(totalSamples * 95 / max )) + " minutes",
         fontSize: 30
       }
     },
