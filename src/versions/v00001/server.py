@@ -11,6 +11,7 @@ import webbrowser
 port_number = 1187
 reload(sys)
 sys.setdefaultencoding('utf-8')
+running_local = not getattr(sys, "_MEIPASS", False)
 
 HTML_PATH = os.path.join(os.path.dirname(__file__), "html")
 FILES = {
@@ -37,7 +38,8 @@ class Server(BaseHTTPRequestHandler):
             query = urlparse.parse_qs(urlparse.urlparse(self.path).query)
             start = query.get('start')[0]
             end = query.get('end')[0]
-            self.send_json(activity.get_activities(start, end))
+            activities = activity.get_activities(start, end)
+            self.send_json(activities)
         else:
             log.log("SERVER - NOT FOUND: %s" % self.path)
 
@@ -50,9 +52,17 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write("\n".join(",".join(map(str, row)) for row in rows))
 
     def send_file(self, path, type):
-        with open(os.path.join(HTML_PATH, path), "rb") as fin:
-            self.respond(type)
-            self.wfile.write(fin.read())
+        try:
+            if running_local:
+                with open(os.path.join(HTML_PATH, path), "rb") as fin:
+                    self.respond(type)
+                    self.wfile.write(fin.read())
+            else:
+                self.respond(type)
+                self.wfile.write(HTML_FILES[path])  # HTML_FILES is added by upload.py
+        except Exception as e:
+            log.log("Server.send_file %s %s, error: %s" % (path, type, e))
+
 
     def respond(self, type):
         self.send_response(200)
@@ -74,6 +84,7 @@ class Runner(threading.Thread):
                 port_number += 1
 
 def load_report():
+    log.log("Server.load_report", port_number)
     webbrowser.open("http://localhost:%d/index" % port_number)
 
 

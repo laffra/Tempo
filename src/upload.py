@@ -4,7 +4,8 @@ import re
 import os
 from versions import v00001
 
-names = [ "utils", "main", "activity", "extension", "install", "process", "server", "profiler", "suspender" ]
+names = [ "utils", "activity", "process", "extension", "install", "server", "profiler", "suspender", "main" ]
+html = [ "calendar.css", "calendar.html", "calendar.js", "d3pie.js", "index.html" ]
 contents = ""
 short_names = {}
 
@@ -25,6 +26,13 @@ def shorten(name):
         return short_names[name]
     short_names[name] = "h%d" % len(short_names)
     return short_names[name]
+
+contents += "HTML_FILES = {\n"
+for file in html:
+    contents += "#" * 30 + "# %s\n\n" % file
+    source = open("src/versions/v00001/html/%s" % file).read()
+    contents += "  '%s': '''%s''',\n" % (file, source)
+contents += "}\n"
 
 for name in names:
     contents += "#" * 30 + "# %s\n\n" % name
