@@ -32,7 +32,7 @@ LATEST_URL = "https://happymac.app/_functions/latest_tempo"
 
 def main(quit_callback=None):
     if not running_local:
-        pass # download_latest()
+        download_latest()
     try:
         load_version(last_version(), quit_callback)
     except Exception as e:
