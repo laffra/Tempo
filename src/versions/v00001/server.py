@@ -18,7 +18,7 @@ FILES = {
     "/calendar": ("calendar.html", "text/html"),
     "/calendar.css": ("calendar.css", "text/css"),
     "/calendar.js": ("calendar.js", "application/javascript"),
-    "/piechart.js": ("piechart.js", "application/javascript"),
+    "/d3pie.js": ("d3pie.js", "application/javascript"),
     "/favicon.ico": ("favicon.ico", "image/x-icon")
 }
 
