@@ -155,7 +155,7 @@ $("#back").click(function() {
   render();
 });
 
-$("td").click(function() {
+$("td.day").click(function() {
   if (!$(this).find(".number").text()) {
     var diff = $(this).parent().attr("id") == "week0" ? -1 : 1;
     currentDate.setMonth(currentDate.getMonth() + diff);
