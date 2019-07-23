@@ -11,10 +11,12 @@ var INDEX_TITLE = 7;
 var INDEX_FAV = 8;
 var INDEX_URL = 9;
 
+var MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 function render() {
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  $('#month').text(months[currentDate.getMonth()] + " " + currentDate.getFullYear());
+  console.log(new Date(), "render");
+  $('#month').text(MONTH_NAMES[currentDate.getMonth()] + " " + currentDate.getFullYear());
   renderGrid();
   renderEvents();
 }
@@ -52,21 +54,21 @@ function renderEvents() {
     for (var key in eventMap) {
       if (key == "max") continue;
       var hours = $("<div>");
-      for (var n = 0; n < 24; n++) {
-        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][n].length / max));
-        console.log(key, n, eventMap[key][n].length, color);
-        var hour = $("<div>")
+      for (var hour = 0; hour < 24; hour++) {
+        var color = 256 - Math.min(256, Math.floor(256 * eventMap[key][hour].length / max));
+        hours.append($("<div>")
           .addClass("hour")
           .css("background-color", "rgb(" + color + "," + color + "," + color + ")")
-          .css("border-color", eventMap[key][n].length ? "rgb(150,150,150)" : "rgb(235,235,235)")
+          .css("border-color", eventMap[key][hour].length ? "rgb(150,150,150)" : "rgb(235,235,235)")
           .attr("key", key)
-          .attr("hour", n)
+          .attr("day", $("#cell" + key).attr("day"))
+          .attr("hour", hour)
           .click(function () {
             var key = $(this).attr("key");
             var hour = $(this).attr("hour");
-            showDetails(parseInt(key[0]), parseInt(key[1]), parseInt(hour), eventMap[key], max);
-          });
-        hours.append(hour);
+            showDetails(parseInt(key[0]), parseInt(key[1]), parseInt(hour), eventMap[key], $(this));
+          })
+        );
       }
       $("#cell" + key)
         .find(".number")
@@ -75,8 +77,7 @@ function renderEvents() {
   })
 }
 
-function showDetails(weekIndex, dayIndex, hour, day, max) {
-  console.log(weekIndex, dayIndex, hour)
+function showDetails(weekIndex, dayIndex, hour, day, dayDiv) {
   var eventCountByUser = {};
   for (var n = 0; n < day[hour].length; n++) {
     var event = day[hour][n];
@@ -91,22 +92,32 @@ function showDetails(weekIndex, dayIndex, hour, day, max) {
       eventCountByUser[key] = (eventCountByUser[key] || 0) + 1;
     }
   }
+  createPieChart(eventCountByUser, dayIndex, dayDiv.attr("day"), hour);
+}
+
+function createPieChart(eventCountByUser, dayIndex, day, hour) {
   var dataPoints = [];
-  var totalSamples = 0;
   for (key in eventCountByUser) {
     dataPoints.push({ label: key, value: eventCountByUser[key] });
-    totalSamples += eventCountByUser[key];
   }
   $("#details").empty();
   new d3pie("details", {
     header: {
       title: {
-        text: "Tempo Details - " + Math.min(60, Math.floor(totalSamples * 95 / max )) + " minutes",
-        fontSize: 30
-      }
+        text: "Details for " + MONTH_NAMES[currentDate.getMonth()] + " " + day + " - " + hour + ":00 - " + (hour+1) + ":00",
+        fontSize: 30,
+        margin: 24,
+      },
+      subtitle: {
+        text: " ",
+        color: "#999999",
+        fontSize: 12,
+        font: "open sans"
+      },
+      titleSubtitlePadding: 59
     },
     size: {
-      canvasWidth: 890,
+      canvasWidth: 1200,
       pieOuterRadius: "90%"
     },
     labels: {
@@ -124,6 +135,11 @@ function showDetails(weekIndex, dayIndex, hour, day, max) {
       content: dataPoints
     }
   });
+  $("#details").dialog({
+    width: 1200,
+    height: 900,
+    modal: true,
+  });
 }
 
 function renderGrid() {
@@ -139,6 +155,7 @@ function renderGrid() {
     if (date.getMonth() == month) {
       $("#cell" + weekIndex + dayIndex)
         .addClass("current")
+        .attr("day", day)
         .find(".number")
         .text(day);
       $("#week" + weekIndex)
@@ -167,5 +184,7 @@ $("#forward").click(function() {
   currentDate.setMonth(currentDate.getMonth() + 1);
   render();
 });
+
+setInterval(render, 1000 * 60);
 
 render();

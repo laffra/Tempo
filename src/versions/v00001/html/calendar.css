@@ -70,4 +70,6 @@ td.day.current:hover {
 #detail {
   margin: 0;
   margin-left: 125px;
+  width: 1200;
+  height: 900;
 }
