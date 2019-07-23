@@ -1,3 +1,5 @@
 # Tempo
 
-![Tempo screenshot](screenshots/tempo-July-21.png)
+![Tempo screenshot](screenshots/tempo-overview.png)
+
+![Tempo screenshot](screenshots/tempo-details.png)
