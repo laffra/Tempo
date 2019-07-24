@@ -1,4 +1,5 @@
 import datetime
+import info
 import log
 import os
 import platform
@@ -89,5 +90,7 @@ def error(message):
             print input.read()
     except:
         pass
+    log.log("Running Tempo from %s" % __file__)
+    log.log("Details: Version %s - by %s - %s" % (info.version, info.who, info.when))
     log.log(error)
     rumps.notification("Tempo", "Error: %s. For details see:" % message, path, sound=True)

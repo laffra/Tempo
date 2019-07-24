@@ -12,6 +12,7 @@ import process
 import profiler
 import rumps
 import server
+import info
 import sys
 import time
 import utils
@@ -23,6 +24,8 @@ ICON = os.path.join(RESOURCE_PATH, "icons/tempo-icon.png")
 TITLE_QUIT = "Quit Tempo"
 TITLE_REPORT = "Show Activity Report..."
 TITLE_ABOUT = "About Tempo - %s"
+
+running_local = not getattr(sys, "_MEIPASS", False)
 
 class TempoStatusBarApp(rumps.App):
     def __init__(self, quit_callback=None):
@@ -47,7 +50,7 @@ class TempoStatusBarApp(rumps.App):
             self.handle_action()
 
     def version(self):
-        return "latest"
+        return "local" if running_local else "%s - %s " % (info.version, info.when)
 
     def update(self):
         activity.update_current_process()
