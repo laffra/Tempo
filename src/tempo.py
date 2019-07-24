@@ -21,7 +21,7 @@ def setup():
         return
     try:
         r = requests.get(LATEST_URL, stream=True)
-        log.log("Download latest version from " % LATEST_URL)
+        log.log("Download latest version from %s" % LATEST_URL)
         zipfile.ZipFile(StringIO.StringIO(r.content)).extractall(downloads_dir)
         log.log("Set sys path to %s" % downloads_dir)
         sys.path.insert(0, downloads_dir)
@@ -30,9 +30,12 @@ def setup():
 
 def run():
     try:
-        __import__("latest").run()
+        __import__("main").run()  # use the latest downloaded version
     except Exception as e:
-        error.error("Could not run tempo/main: %s" % e)
+        try:
+            __import__("latest").run()  # use the development version
+        except Exception as e:
+            error.error("Could not run tempo/main: %s" % e)
 
 def main():
     setup()
