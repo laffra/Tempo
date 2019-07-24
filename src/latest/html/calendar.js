@@ -52,12 +52,13 @@ function renderEvents() {
   $.get("http://localhost:1187/events?start=" + start + "&end=" + end, function(events) {
     lastEvents = events;
     var eventMap = parseEvents(events);
-    var max = eventMap["max"];
     for (var key in eventMap) {
       if (key == "max") continue;
-      var hours = $("<div>");
+      var hours = $("<div>").addClass("day-hours");
+      var totalCoverage = 0;
       for (var hour = 0; hour < 24; hour++) {
         var coverage = getSampleCoverage(eventMap[key][hour]);
+        totalCoverage += coverage;
         var color = 256 - Math.floor(coverage * 256);
         var minutes = Math.floor(coverage * 60);
         hours.append($("<div>")
@@ -78,7 +79,12 @@ function renderEvents() {
       }
       $("#cell" + key)
         .find(".number")
-        .append(hours);
+        .append([
+          $("<div>")
+            .addClass("detail-day-hours")
+            .text(totalCoverage.toFixed(1) + " hours"),
+          hours
+        ]);
     }
   })
 }
@@ -88,7 +94,7 @@ function getSampleCoverage(events) {
   for (var n = 0; n < events.length; n++) {
     var event = events[n];
     var timestamp = event[INDEX_TIMESTAMP];
-    for (var k = -3; k < 3; k++) {
+    for (var k = -5; k < 5; k++) {
       samples[timestamp + k] = event;
     }
   }

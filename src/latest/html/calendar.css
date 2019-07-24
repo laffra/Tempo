@@ -46,7 +46,7 @@ td.day.current:hover {
   padding: 8px;
   font-size: 16px;
   font-family: Arial;
-  color: darkgray;
+  color: rgb(87, 165, 249);
 }
 .controls button {
   background-color: rgb(36, 132, 193);
@@ -79,6 +79,15 @@ td.day.current:hover {
   height: 25px;
   width: 0px;
   float: left;
+}
+.day-hours {
+  margin-top: 10px;
+}
+.detail-day-hours {
+  float: right;
+  margin-right: 22px;
+  font-style: italic;
+  color: #fcab6d;
 }
 .detail-hour-marker {
   width: 45px;
