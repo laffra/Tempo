@@ -11,7 +11,6 @@ import webbrowser
 port_number = 1187
 reload(sys)
 sys.setdefaultencoding('utf-8')
-running_local = not getattr(sys, "_MEIPASS", False)
 
 HTML_PATH = os.path.join(os.path.dirname(__file__), "html")
 FILES = {
@@ -53,13 +52,9 @@ class Server(BaseHTTPRequestHandler):
 
     def send_file(self, path, type):
         try:
-            if running_local:
-                with open(os.path.join(HTML_PATH, path), "rb") as fin:
-                    self.respond(type)
-                    self.wfile.write(fin.read())
-            else:
+            with open(os.path.join(HTML_PATH, path), "rb") as fin:
                 self.respond(type)
-                self.wfile.write(HTML_FILES[path])  # HTML_FILES is added by upload.py
+                self.wfile.write(fin.read())
         except Exception as e:
             log.log("Server.send_file %s %s, error: %s" % (path, type, e))
 
