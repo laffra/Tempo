@@ -1,4 +1,5 @@
 import activity
+import info
 import error
 import extension
 import functools
@@ -11,7 +12,6 @@ import process
 import profiler
 import rumps
 import server
-import suspender
 import sys
 import time
 import utils
@@ -83,6 +83,11 @@ class TempoStatusBarApp(rumps.App):
 
 
 def run(quit_callback=None):
+    log.log("Running Tempo from %s" % __file__)
+    log.log("Details: Version %s - by %s - %s" % (info.version, info.who, info.when))
+    log.log("Python system path:")
+    for n, p in enumerate(sys.path):
+        log.log("  %d  %s" % (n,p))
     extension.install()
     rumps.notification("Tempo", "Tempo is now running", "See the T icon in the status bar", sound=False)
     TempoStatusBarApp(quit_callback).run()
