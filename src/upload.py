@@ -24,8 +24,8 @@ def createLatestZip():
             fout.write("who = '%s'\n" % os.path.expanduser("~").replace("/Users/", ""))
 
         rootDir = os.path.dirname(srcDir)
+        shutil.make_archive(os.path.join(rootDir, "latest_dist"), 'zip', "src/latest")
         archivesDir = os.path.join(rootDir, "archives")
-        shutil.make_archive(os.path.join(archivesDir, "latest_dist"), 'zip', "src/latest")
         shutil.make_archive(os.path.join(archivesDir, "v%s" % version), 'zip', "src/latest")
 
         print("Created latest zip")
