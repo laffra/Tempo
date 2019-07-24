@@ -7,7 +7,7 @@ import zipfile
 import StringIO
 import sys
 
-LATEST_URL = "https://github.com/laffra/Tempo/raw/master/archives/latest_dist.zip"
+LATEST_URL = "https://github.com/laffra/Tempo/raw/master/latest_dist.zip"
 
 home_dir = os.path.join(os.path.expanduser("~"), "TempoApp")
 downloads_dir = os.path.join(home_dir, "src")
