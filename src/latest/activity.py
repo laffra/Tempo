@@ -85,7 +85,7 @@ def update_current_process():
     return "%s %s" % (user, app_name)
 
 def save_event(timestamp, system, cpu, user, pid, ppid, name, title, fav, url):
-    # log.log("event %s %s %s" % (cpu, name, user))
+    # log.log("event %s %s %s %s %s" % (cpu, name, user, title, url ))
     connection = sqlite3.connect(db_path())
     cursor = connection.cursor()
     cursor.execute("""
