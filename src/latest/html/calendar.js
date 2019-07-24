@@ -59,12 +59,11 @@ function renderEvents() {
       for (var hour = 0; hour < 24; hour++) {
         var coverage = getSampleCoverage(eventMap[key][hour]);
         totalCoverage += coverage;
-        var color = 256 - Math.floor(coverage * 256);
+        var colorClass = getHeatmapColor(coverage)
         var minutes = Math.floor(coverage * 60);
         hours.append($("<div>")
           .addClass("hour")
-          .css("background-color", "rgb(" + color + "," + color + "," + color + ")")
-          .css("border-color", eventMap[key][hour].length ? "rgb(150,150,150)" : "rgb(235,235,235)")
+          .addClass(colorClass)
           .attr("key", key)
           .attr("day", $("#cell" + key).attr("day"))
           .attr("hour", hour)
@@ -87,6 +86,20 @@ function renderEvents() {
         ]);
     }
   })
+}
+
+function getHeatmapColor(coverage) {
+  if (coverage == 0) {
+    return "detail-hour-0";
+  } else if (coverage < .25) {
+    return "detail-hour-25";
+  } else if (coverage < .50) {
+    return "detail-hour-50";
+  } else if (coverage < .75) {
+    return "detail-hour-75";
+  } else {
+    return "detail-hour-100";
+  }
 }
 
 function getSampleCoverage(events) {

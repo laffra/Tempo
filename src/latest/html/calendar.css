@@ -37,7 +37,7 @@ td.day.current:hover {
   width: 26px;
   height: 26px;
   display: inline-block;
-  border: 1px solid rgb(191, 191, 191);
+  border: 1px solid rgb(235,235,235);
   margin: 2px;
 }
 .number {
@@ -96,4 +96,19 @@ td.day.current:hover {
   margin-top: 250px;
   text-align: right;
   float: left;
+}
+.detail-hour-0 {
+  background-color: #ebedf0;
+}
+.detail-hour-25 {
+  background-color: #c6e48b;
+}
+.detail-hour-50 {
+  background-color: #7bc96f;
+}
+.detail-hour-75 {
+  background-color: #239a3b;
+}
+.detail-hour-100 {
+  background-color: #196127;
 }
