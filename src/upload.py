@@ -5,7 +5,8 @@ from datetime import date
 
 def createLatestZip():
     srcDir = os.path.dirname(__file__)
-    infoPath = os.path.join(srcDir, "info.py")
+    latestPath = os.path.join(srcDir, "latest")
+    infoPath = os.path.join(latestPath, "info.py")
 
     with open(infoPath) as fin:
         print("Current version:\n")

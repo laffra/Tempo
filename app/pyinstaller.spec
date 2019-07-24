@@ -9,7 +9,7 @@ a = Analysis(['src/tempo.py'],
              datas=[
                ('icons', 'icons'),
              ],
-             hiddenimports=['versions.v00001.main'],
+             hiddenimports=['latest.main'],
              hookspath=[],
              runtime_hooks=[],
              excludes=['tkinter'],
