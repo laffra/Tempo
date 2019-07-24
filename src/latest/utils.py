@@ -15,6 +15,7 @@ import Quartz
 from Quartz import CG, CoreGraphics
 import rumps
 import struct
+import sys
 import time
 import threading
 import traceback
@@ -123,6 +124,7 @@ class Timer(threading.Thread):
                 pass # this is normal
             except Exception as e:
                 error.error("Error in Timer callback '%s': %s" % (self.callback.callback.im_func.__name__, e))
+                rumps.quit_application()
 
 image_cache = {}
 rumps_nsimage_from_file = rumps.rumps._nsimage_from_file

@@ -14,10 +14,11 @@ downloads_dir = os.path.join(home_dir, "src")
 if not os.path.exists(downloads_dir):
     os.makedirs(downloads_dir)
 
+running_local = not getattr(sys, "_MEIPASS", False)
 
 def setup():
-    if not getattr(sys, "_MEIPASS", False):
-        # running locally, so do not run latest version
+    if running_local:
+        log.log("Running Tempo locally. Do not download and run latest version")
         return
     try:
         r = requests.get(LATEST_URL, stream=True)
@@ -31,7 +32,7 @@ def setup():
 def run():
     try:
         __import__("main").run()  # use the latest downloaded version
-    except Exception as e:
+    except:
         try:
             __import__("latest").run()  # use the development version
         except Exception as e:
