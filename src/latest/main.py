@@ -15,7 +15,6 @@ import suspender
 import sys
 import time
 import utils
-import version_manager
 import webbrowser
 
 RESOURCE_PATH = getattr(sys, "_MEIPASS", os.path.abspath("."))
@@ -36,7 +35,7 @@ class TempoStatusBarApp(rumps.App):
         self.menu_is_open = False
         server.start_server()
         utils.Timer(2, self.update).start()
-        log.log("Started Tempo %s" % version_manager.last_version())
+        log.log("Started Tempo")
 
     def report(self, menuItem=None):
         try:
@@ -48,7 +47,7 @@ class TempoStatusBarApp(rumps.App):
             self.handle_action()
 
     def version(self):
-        return version_manager.last_version()
+        return "latest"
 
     def update(self):
         activity.update_current_process()
@@ -76,7 +75,7 @@ class TempoStatusBarApp(rumps.App):
         rumps.quit_application()
 
     def about(self, menuItem=None):
-        webbrowser.open("http://happymac.app")
+        webbrowser.open("https://github.com/laffra/Tempo")
 
     def handle_action(self, menuItem=None):
         if menuItem:
@@ -85,5 +84,5 @@ class TempoStatusBarApp(rumps.App):
 
 def run(quit_callback=None):
     extension.install()
-    rumps.notification("Tempo", "Tempo is now running", "See the emoji icon in the status bar", sound=False)
+    rumps.notification("Tempo", "Tempo is now running", "See the T icon in the status bar", sound=False)
     TempoStatusBarApp(quit_callback).run()
