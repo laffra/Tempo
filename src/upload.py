@@ -24,13 +24,12 @@ def createLatestZip():
             fout.write("who = '%s'\n" % os.path.expanduser("~").replace("/Users/", ""))
 
         rootDir = os.path.dirname(srcDir)
-        zipPath = os.path.join(rootDir, "latest_dist")
-        shutil.make_archive(zipPath, 'zip', "src/latest")
+        archivesDir = os.path.join(rootDir, "archives")
+        shutil.make_archive(os.path.join(archivesDir, "latest_dist"), 'zip', "src/latest")
+        shutil.make_archive(os.path.join(archivesDir, "v%s" % version), 'zip', "src/latest")
 
-        print("Created latest zip in %s.zip:" % zipPath)
-        os.system("unzip -v %s.zip" % zipPath)
+        print("Created latest zip")
         print("Next step: commit and push")
-
 
 if __name__ == "__main__":
     createLatestZip()
